@@ -54,6 +54,7 @@ def K_Means(X, K):
             
     clusters = sorted(clusters)
     C = clusters # C = clusters to be uniform to project
+    C = np.array(C)  # converts C to numpy array
     return C
 
 def K_Means_better(X, K):
@@ -61,11 +62,12 @@ def K_Means_better(X, K):
     
     for i in range(1000):  # iterate MANY times
         C = K_Means(X,K)  # store clusters of K_Means
+        C = [tuple(s) for s in C]  # convert elements to tuple
         cluster_list.append(C)  # add to list of clusters
         
     final_list = [tuple(t) for t in cluster_list]  # convert list into tuple
     
     mode_cluster = stat.mode(final_list)  # find most common clusters from tuple
-    mode_cluster = list(mode_cluster)   # converts tuple back to list    
+    mode_cluster = np.array(mode_cluster)   # converts tuple back to numpy array
     
     return mode_cluster
