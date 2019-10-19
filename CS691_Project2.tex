@@ -47,7 +47,7 @@
 Fall 2019
 \end{center}
 
-\textbf{Note: The following functions are implemented with the \textsf{numpy}, \textsf{random}, and \textsf{statistics} functions}.
+\textbf{Note: The following functions are implemented with the \textsf{numpy}, \textsf{random}, and \textsf{statistics} libraries}.
 
 \section{Nearest Neighbors}
 \subsection{KNN\_test}
@@ -56,7 +56,7 @@ Takes in training data sample features \textsf{X\_train}, training data sample l
 \begin{enumerate}
  \item Initial steps
  \begin{enumerate}
-    \item First, we add a fail-safe to return the accuracy as 0 if K is defined as 0. We also stored the \textsf{total} number of samples and started the \textsf{counter} as 0.
+    \item First, we add a fail-safe to return the accuracy as 0 if K is defined as 0. We also store the \textsf{total} number of samples and initialize the \textsf{correct} counter to 0.
 \begin{lstlisting}[language=python, frame=single]
 def KNN_test(X_train, Y_train, X_test, Y_test, K):
     if K == 0:
@@ -67,7 +67,7 @@ def KNN_test(X_train, Y_train, X_test, Y_test, K):
     \end{enumerate}
  \item Loop through all the samples in test data
  \begin{enumerate}
-     \item The next step is starts the bulk of the function, and begins with a \textsf{for loop} that iterates through all of the test data. For each test sample, empty lists are initiated to be filled later on in the analysis. The maximum distance of the test data from a nearest neighbor, \textsf{max\_dist}, is set to 0, and the index of the furthest nearest neighbor, \textsf{max\_idx}, is set to NULL. 
+     \item The next step starts the bulk of the function, and begins with a \textsf{for loop} that iterates through all of the test data. For each test sample, empty lists are initiated to be filled later on in the analysis. The maximum distance of the test data from a nearest neighbor, \textsf{max\_dist}, is set to 0, and the index of the furthest nearest neighbor, \textsf{max\_idx}, is set to NULL. 
 \begin{lstlisting}[language=python, frame=single]
 for sample_idx, sample in enumerate(X_test):
     dists = []
@@ -102,7 +102,7 @@ if len(dists) < K:
     	max_idx = idx
 \end{lstlisting}
     \begin{enumerate}
-        \item If the distance between the current training and test sample is greater than value of \textsf{max\_dist}, code \textsf{max\_dist} as \textsf{dist}, and recode \textsf{max\_idx} as \textsf{idx}. This defines the current distance between the training sample and test sample as the greatest distance between any training sample and the current text sample.
+        \item If the distance between the current training and test sample is greater than value of \textsf{max\_dist}, set \textsf{max\_dist} to \textsf{dist}, and set \textsf{max\_idx} as \textsf{idx}. This defines the current distance between the training sample and test sample as the greatest distance between any training sample and the current text sample.
     \end{enumerate}
     \item If \textsf{dist} is less than \textsf{max\_dist}, then replace \textsf{max\_dist} from the list of distances and list of distance indices for the current test sample with \textsf{dist}. Reset \textsf{max\_dist} as the largest value in the list \textsf{dists} and the corresponding index in \textsf{dist\_idxs}.
 \begin{lstlisting}[language=python, frame=single]
@@ -303,7 +303,7 @@ C = np.array(C)
 return C
 \end{lstlisting}
         \begin{enumerate}
-            \item This step also converts the output into an \textsf{numpy} array, as asked.
+            \item This step also converts the output into a \textsf{numpy} array, as asked.
         \end{enumerate}
     \end{enumerate}
 \end{enumerate}
@@ -417,7 +417,7 @@ while updated:
 \end{lstlisting}
         \begin{enumerate}
             \item To do so, the code continues to run as long as \textsf{updated = TRUE}.
-            \item Variable \textsf{a} is calculated for each sample. If \textsf{a} and label \textsf{Y} are not the same, then weights and bias is updated.
+            \item Variable \textsf{a} is calculated for each sample. If \textsf{a} and label \textsf{Y} are not the same sign, then the weights and bias are updated.
         \end{enumerate}
     \end{enumerate}
 \end{enumerate}
