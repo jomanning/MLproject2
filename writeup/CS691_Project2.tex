@@ -60,14 +60,14 @@ Takes in training data sample features \textsf{X\_train}, training data sample l
 \begin{lstlisting}[language=python, frame=single]
 def KNN_test(X_train, Y_train, X_test, Y_test, K):
     if K == 0:
-    	return 0
+        return 0
     total = len(X_test)
     correct = 0
 \end{lstlisting}    
     \end{enumerate}
  \item Loop through all the samples in test data
  \begin{enumerate}
-     \item The next step starts the bulk of the function, and begins with a \textsf{for loop} that iterates through all of the test data. For each test sample, empty lists are initiated to be filled later on in the analysis. The maximum distance of the test data from a nearest neighbor, \textsf{max\_dist}, is set to 0, and the index of the furthest nearest neighbor, \textsf{max\_idx}, is set to NULL. 
+     \item The next step starts the bulk of the function, and begins with a \textsf{for loop} that iterates through all of the test data. For each test sample, empty lists are initiated to be filled later on in the algorithm. The maximum distance of the test data from a nearest neighbor, \textsf{max\_dist}, is set to 0, and the index of the furthest nearest neighbor, \textsf{max\_idx}, is set to NULL. 
 \begin{lstlisting}[language=python, frame=single]
 for sample_idx, sample in enumerate(X_test):
     dists = []
@@ -81,16 +81,16 @@ for sample_idx, sample in enumerate(X_test):
      \item At this step, iterate through all of the samples in training data, setting the distance, \textsf{dist}, to 0.
 \begin{lstlisting}[language=python, frame=single]
 for idx, trainData in enumerate(X_train):
-	dist = 0
+    dist = 0
 \end{lstlisting}
-     \item Next, calculate the Euclidean distance between each training feature to test feature. The square root is left out of the calculation, because it is not necessary for comparing distances in this instance. 
+     \item Next, calculate the Euclidean distance between each training feature to test feature and sum them all up. The square root is left out of the calculation, because it is not necessary for comparing distances in this instance. 
 \begin{lstlisting}[language=python, frame=single]
 for feat_idx in range(0,len(trainData)):
     dist += (sample[feat_idx] - trainData[feat_idx]) 
         * (sample[feat_idx] - trainData[feat_idx])
 \end{lstlisting}
      \begin{enumerate}
-     \item Calculated distance is then stored as \textsf{dist} for the \textsf{feat\_idx}-th sample in the training data.
+     \item Calculated distance is then stored as \textsf{dist} for the \textsf{idx}-th sample in the training data.
      \end{enumerate}
     \item If the list of distances, \textsf{dists}, is less than the defined \textsf{K}, for number of nearest neighbors, add the distance of the current training sample, \textsf{dist}, to \textsf{dists}, and add the current traning sample's index, \textsf{idx}, to the list of distance indices, \textsf{dist\_idx}.
 \begin{lstlisting}[language=python, frame=single]
@@ -98,11 +98,11 @@ if len(dists) < K:
     dists += [dist]
     dist_idxs += [idx]
     if dist > max_dist:
-    	max_dist = dist
-    	max_idx = idx
+        max_dist = dist
+        max_idx = idx
 \end{lstlisting}
     \begin{enumerate}
-        \item If the distance between the current training and test sample is greater than value of \textsf{max\_dist}, set \textsf{max\_dist} to \textsf{dist}, and set \textsf{max\_idx} as \textsf{idx}. This defines the current distance between the training sample and test sample as the greatest distance between any training sample and the current text sample.
+        \item If the distance between the current training and test sample is greater than value of \textsf{max\_dist}, set \textsf{max\_dist} to \textsf{dist}, and set \textsf{max\_idx} as \textsf{idx}. This defines the current distance between the training sample and test sample as the greatest distance between any of the current nearest neighbor training samples and the current test sample.
     \end{enumerate}
     \item If \textsf{dist} is less than \textsf{max\_dist}, then replace \textsf{max\_dist} from the list of distances and list of distance indices for the current test sample with \textsf{dist}. Reset \textsf{max\_dist} as the largest value in the list \textsf{dists} and the corresponding index in \textsf{dist\_idxs}.
 \begin{lstlisting}[language=python, frame=single]
@@ -128,9 +128,9 @@ decision = None
 \begin{lstlisting}[language=python, frame=single]
 for i in dist_idxs:
     if Y_train[i][0] == 1:
-    	pos_votes+=1
+        pos_votes+=1
     else:
-    	neg_votes+=1
+        neg_votes+=1
     if pos_votes > neg_votes:
     decision = 1
     else:
@@ -142,7 +142,7 @@ for i in dist_idxs:
         \item If the \textsf{decision} matches the test label from \textsf{Y\_test}, then add 1 to the \textsf{correct} counter.
 \begin{lstlisting}[language=python, frame=single]
 if decision == Y_test[sample_idx][0]:
-	correct+=1
+    correct+=1
 \end{lstlisting}
 \end{enumerate}
 \item Calculate the accuracy of \textsf{K} nearest neighbors
@@ -196,11 +196,11 @@ best_K = 0
 for i in range(1,len(X_train)+1):
     #if its even skip (K should be odd)
     if i%2 == 0:
-    	continue
+        continue
     acc = KNN_test(X_train, Y_train, X_val, Y_val, i)
     if acc > best_acc:
-    	best_acc = acc
-    	best_K = i
+        best_acc = acc
+        best_K = i
 return best_K
 \end{lstlisting}
         \begin{enumerate}
@@ -248,7 +248,7 @@ for i in range(999):
     if old_clusters == clusters:
         break
 \end{lstlisting}
-        \item If clusters change between loops, recode \textsf{old\_cluster} as the last cluster centers and reinitialize \textsf{clusters} as an empty list. Begin a loop that iterates through all samples in \textsf{X}. 
+        \item If clusters change between loops, replace the value of \textsf{old\_cluster} with the last cluster centers and reinitialize \textsf{clusters} as an empty list. Begin a loop that iterates through all samples in \textsf{X}. 
 \begin{lstlisting}[language=python, frame=single]
 for b in range(num_samps):  # loop through samples
     samp = X[b]  # select sample
@@ -404,15 +404,15 @@ while updated:
     updated = False
     
     for sample_idx, x in enumerate(X):
-    	a = b
-    	for feat_idx, feat in enumerate(x):
-    		a += w[feat_idx] * feat
+        a = b
+        for feat_idx, feat in enumerate(x):
+            a += w[feat_idx] * feat
     
-    	if a * Y[sample_idx][0] <= 0:
-    		updated = True
-    		for feat_idx, feat in enumerate(x):
-    			w[feat_idx] += feat * Y[sample_idx][0]
-    		b += Y[sample_idx][0]
+        if a * Y[sample_idx][0] <= 0:
+            updated = True
+            for feat_idx, feat in enumerate(x):
+                w[feat_idx] += feat * Y[sample_idx][0]
+            b += Y[sample_idx][0]
     return [w,b]
 \end{lstlisting}
         \begin{enumerate}
@@ -436,18 +436,18 @@ correct = 0
 \end{lstlisting}
     \item Calculate \textsf{a} for each sample
     \begin{enumerate}
-        \item Next, this bulk of code calculates \textsf{a} for each sample using the inputted weights, \textsf{w}, and bias, \textsf{b}. If \textsf{a} is greater than 1, the sample \textsf{decision} as a 1, otherwise as a -1.
+        \item Next, this bulk of code calculates \textsf{a} for each sample using the passed in weights, \textsf{w}, and bias, \textsf{b}. If \textsf{a} is greater than 1, the sample \textsf{decision} as a 1, otherwise as a -1.
 \begin{lstlisting}[language=python, frame=single]
 for idx, x in enumerate(X_test):
     decision = None
     a = b
     for feat_idx,feat in enumerate(x):
-    	a += w[feat_idx] * feat
+        a += w[feat_idx] * feat
 
     if a > 0:
-    	decision = 1
+        decision = 1
     else:
-    	decision = -1
+        decision = -1
 \end{lstlisting}
     \end{enumerate}
 \begin{enumerate}
@@ -456,8 +456,8 @@ for idx, x in enumerate(X_test):
         \item If the perceptron classification, \textsf{decision}, is the same as the sample label, \textsf{Y\_test}, then add 1 to the \textsf{correct} counter. Return the accuracy at the end, which is \textsf{correct / total}.
     \end{enumerate}
 \begin{lstlisting}[language=python, frame=single]
-	if decision == Y_test[idx][0]:
-		correct+=1
+    if decision == Y_test[idx][0]:
+        correct+=1
 return correct/total
 \end{lstlisting}
 \end{enumerate}
